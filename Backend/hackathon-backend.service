@@ -1,0 +1,15 @@
+[Unit]
+Description=Hackathon Backend API
+After=network.target postgresql.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/hakaton/backend
+ExecStart=/root/hakaton/backend/venv/bin/python -m app.main
+Restart=always
+RestartSec=5
+EnvironmentFile=/root/hakaton/backend/.env
+
+[Install]
+WantedBy=multi-user.target

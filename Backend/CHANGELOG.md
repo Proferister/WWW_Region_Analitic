@@ -1,0 +1,68 @@
+# Changelog
+
+## [2026-04-04]
+
+### Добавлено
+- CLAUDE.md с указаниями по проекту
+- CHANGELOG.md для ведения журнала изменений
+- MAX_API.md — полная документация MAX API (все эндпоинты, объекты данных, параметры, примеры)
+- Базовая структура бота MAX на Python + Long Polling
+  - `app/config.py` — конфигурация из .env (токен)
+  - `app/max_api.py` — async-клиент MAX API (get_updates, get_chat, send_message)
+  - `app/main.py` — Long Polling цикл с обработкой `bot_added` (вывод в консоль: группа + кто добавил)
+  - `requirements.txt` — зависимости (httpx, pydantic-settings)
+  - `.env.example` — шаблон переменных окружения
+- Система авторизации по email + OTP
+  - `app/models.py` — модели БД: `users`, `otp_codes` (SQLAlchemy + asyncpg)
+  - `app/database.py` — async-подключение к PostgreSQL
+  - `app/auth.py` — эндпоинты `POST /auth/request-otp`, `POST /auth/verify-otp`, `POST /auth/refresh`, JWT-токены
+  - `app/mail_service.py` — отправка OTP на почту через mail API whitea.ru
+  - Таблицы с��здаются автоматически при старте приложения
+- Завершение сессии `POST /auth/logout` — отзыв JWT-токена через таблицу `revoked_tokens`
+- Гостевой режим `POST /auth/guest` — только из MAX (требует initData), роль `guest`, только просмотр
+- Роли пользователей: `staff` (сотрудник, полный доступ) и `guest` (гость, ограниченный)
+- Приветственное сообщение бота при `bot_started` — приглашение открыть приложение с описанием режимов входа
+- Авторизация через MAX Bridge `POST /auth/max` — валидация initData, автоматический вход из мини-приложения
+  - `app/max_bridge.py` — HMAC-SHA256 валидация initData (secret_key из BOT_TOKEN)
+- CRUD источников данных (MAX, Telegram, VK)
+  - `app/models.py` — модель `sources` (platform, name, description, source_id, source_url, is_active)
+  - `app/sources.py` — эндпоинты `GET/POST/PATCH/DELETE /sources`
+  - `app/auth.py` — dependency `get_current_user` и `require_staff` для защиты роутов
+  - Гости (`guest`) — только чтение, сотрудники (`staff`) — полный доступ
+- Автоматическое добавление источников MAX через бота
+  - `bot_added` → сохранение группы в БД со статусом `pending` + inline-кнопки «Подключить / Отклонить»
+  - `message_callback` → обработка нажатий: `approve` (статус approved) или `reject` (бот покидает чат)
+  - `app/max_api.py` — добавлены `answer_callback`, `leave_chat`
+  - `app/models.py` — поле `status` в Source (`pending`, `approved`, `rejected`)
+- Подтверждение/отклонение источников через API: `POST /sources/{id}/approve`, `POST /sources/{id}/reject`
+- Фоновая очистка истёкших данных (каждый час): удаление просроченных OTP и отозванных токенов старше 48ч
+- Telegram бот — аналогичный функционал MAX
+  - `app/telegram_api.py` — клиент Telegram Bot API (getChat, sendMessage, leaveChat, setWebhook)
+  - `POST /tg-webhook` — обработка Telegram webhook (my_chat_member, /start)
+  - Автоматическое добавление/удаление источников при добавлении/удалении бота из группы Telegram
+  - Приветственное сообщение при /start
+  - `sources.py` — leave_chat для обеих платформ (MAX + Telegram)
+- RSS/ATOM источники
+  - `app/rss_parser.py` — парсер и валидатор RSS 2.0, ATOM, RDF (RSS 1.0)
+  - `POST /sources/rss` — добавление по URL, автоматический парсинг названия, описания и favicon
+  - Статус `approved` сразу при добавлении (не требует подтверждения)
+  - Дубликаты блокируются (409)
+- Система сбора и анализа сообщений
+  - `app/models.py` — таблицы `messages` (текст, автор, анализ) и `topics` (топ проблем, тренды, статистика)
+  - `app/collector.py` — сбор сообщений из MAX webhook, Telegram webhook, RSS polling (каждые 10 мин)
+  - `app/analyzer.py` — анализ через AI Migrate: классификация, тональность, геолокация, ключевые слова
+  - Фоновые задачи: анализ новых сообщений (каждые 30с), построение топиков (каждые 5 мин)
+- API дашборда
+  - `app/dashboard.py` — эндпоинты для фронтенда
+  - `GET /dashboard/topics` — топ-10 проблем (rank, title, industry, location, dynamic, mentions)
+  - `GET /dashboard/topics/{id}` — детальная карточка (summary, chart, sources, reliability, keywords)
+  - `GET /dashboard/stats` — общая статистика (кол-во топиков, сообщений, источников)
+- AI Migrate интегрирован в Backend (один процесс, один порт)
+  - `app/ai_analyze.py` — GigaChatService, анализ сообщений, кластеризация, embeddings (бывший AI Migrate)
+  - Вызовы идут напрямую (без HTTP), не нужен отдельный сервис на порту 8001
+  - GigaChat ключи (CLIENT_ID, CLIENT_SECRET) в .env
+- Frontend подключён к реальным данным
+  - DashboardPage — загрузка топ-10 из `GET /dashboard/topics`, автообновление каждые 5 мин, спиннер, пустое состояние
+  - TopicDetailPage — загрузка по `GET /dashboard/topics/{id}`, все блоки (сводка, статистика, график, ключевые слова, достоверность, источники)
+  - `api.ts` — добавлены `getTopics()`, `getTopicDetail()`, `getDashboardStats()`
+- Обновлён `API_GUIDE.md` для фронтенда: авторизация, источники, роли, MAX Bridge, примеры кода

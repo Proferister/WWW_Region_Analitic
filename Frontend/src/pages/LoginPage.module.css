@@ -1,0 +1,560 @@
+/* ========== Layout ========== */
+.wrapper {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.4s;
+}
+
+.dark {
+  background: #1a1a2e;
+}
+
+.light {
+  background: #e8e8f0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 420px;
+  padding: 24px;
+  position: relative;
+  z-index: 2;
+}
+
+/* ========== Background shapes ========== */
+.bgShape1,
+.bgShape2,
+.bgShape3 {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.dark .bgShape1 {
+  width: 500px;
+  height: 500px;
+  top: -15%;
+  left: -20%;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, transparent 70%);
+}
+
+.dark .bgShape2 {
+  width: 600px;
+  height: 600px;
+  bottom: -20%;
+  right: -25%;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.06) 0%, transparent 70%);
+}
+
+.dark .bgShape3 {
+  width: 300px;
+  height: 300px;
+  top: 40%;
+  left: 60%;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.05) 0%, transparent 70%);
+}
+
+.light .bgShape1 {
+  width: 500px;
+  height: 500px;
+  top: -15%;
+  left: -20%;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, transparent 70%);
+}
+
+.light .bgShape2 {
+  width: 600px;
+  height: 600px;
+  bottom: -20%;
+  right: -25%;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+}
+
+.light .bgShape3 {
+  width: 300px;
+  height: 300px;
+  top: 40%;
+  left: 60%;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.08) 0%, transparent 70%);
+}
+
+/* ========== Decorative wave curves ========== */
+.wrapper::before,
+.wrapper::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.dark.wrapper::before {
+  width: 150%;
+  height: 60%;
+  top: -25%;
+  left: -25%;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  transform: rotate(-10deg);
+}
+
+.dark.wrapper::after {
+  width: 130%;
+  height: 50%;
+  bottom: -20%;
+  right: -15%;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  transform: rotate(8deg);
+}
+
+.light.wrapper::before {
+  width: 150%;
+  height: 60%;
+  top: -25%;
+  left: -25%;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transform: rotate(-10deg);
+}
+
+.light.wrapper::after {
+  width: 130%;
+  height: 50%;
+  bottom: -20%;
+  right: -15%;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  transform: rotate(8deg);
+}
+
+/* ========== Theme toggle ========== */
+.themeToggle {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  z-index: 10;
+}
+
+/* ========== Logo ========== */
+.logoSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.logo {
+  width: clamp(100px, 22vw, 160px);
+  height: auto;
+  object-fit: contain;
+  margin-bottom: -8px;
+  transition: filter 0.4s;
+}
+
+.dark .logo {
+  filter: brightness(1);
+}
+
+.light .logo {
+  filter: invert(1);
+}
+
+/* ========== Glass Card ========== */
+.glassCard {
+  width: 100%;
+  padding: 32px 28px;
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: background 0.4s, border-color 0.4s, box-shadow 0.4s;
+}
+
+.dark .glassCard {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.light .glassCard {
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* ========== Labels ========== */
+.label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.dark .label {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.light .label {
+  color: rgba(0, 0, 0, 0.75);
+}
+
+/* ========== Glass Inputs ========== */
+.glassInput {
+  border-radius: 12px !important;
+  height: 48px !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  transition: all 0.3s !important;
+}
+
+.dark .glassInput {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #fff !important;
+}
+
+.dark .glassInput:hover,
+.dark .glassInput:focus {
+  border-color: rgba(139, 92, 246, 0.5) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.dark .glassInput::placeholder {
+  color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.light .glassInput {
+  background: rgba(255, 255, 255, 0.5) !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  color: #1a1a2e !important;
+}
+
+.light .glassInput:hover,
+.light .glassInput:focus {
+  border-color: rgba(139, 92, 246, 0.5) !important;
+  background: rgba(255, 255, 255, 0.7) !important;
+}
+
+.light .glassInput::placeholder {
+  color: rgba(0, 0, 0, 0.35) !important;
+}
+
+/* Password input wrapper */
+.dark .glassInput input {
+  color: #fff !important;
+  background: transparent !important;
+}
+
+.light .glassInput input {
+  color: #1a1a2e !important;
+  background: transparent !important;
+}
+
+/* ========== Code Step ========== */
+.codeStep {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.codeTitle {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+
+.dark .codeTitle {
+  color: #fff;
+}
+
+.light .codeTitle {
+  color: #1a1a2e;
+}
+
+.codeSubtitle {
+  font-size: 14px;
+  margin: 0 0 12px;
+}
+
+.dark .codeSubtitle {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.light .codeSubtitle {
+  color: rgba(0, 0, 0, 0.45);
+}
+
+/* ========== Email Display ========== */
+.emailDisplay {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.dark .emailDisplay {
+  color: #fff;
+}
+
+.light .emailDisplay {
+  color: #1a1a2e;
+}
+
+.emailIcon {
+  font-size: 16px;
+}
+
+.dark .emailIcon {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.light .emailIcon {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+/* ========== OTP Cells ========== */
+.otpRow {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.otpCell {
+  width: 46px;
+  height: 54px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+  border-radius: 12px;
+  outline: none;
+  transition: border-color 0.3s, background 0.3s;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.otpCellDark {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.otpCellDark:focus {
+  border-color: rgba(139, 92, 246, 0.6);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.otpCellLight {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #1a1a2e;
+}
+
+.otpCellLight:focus {
+  border-color: rgba(139, 92, 246, 0.6);
+  background: rgba(255, 255, 255, 0.75);
+}
+
+/* ========== Resend Row ========== */
+.resendRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.resendText {
+  font-size: 13px;
+}
+
+.dark .resendText {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.light .resendText {
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.resendDot {
+  font-size: 13px;
+}
+
+.dark .resendDot {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.light .resendDot {
+  color: rgba(0, 0, 0, 0.25);
+}
+
+.resendLink {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 0;
+  transition: opacity 0.3s;
+}
+
+.dark .resendLink {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.light .resendLink {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.resendLink:hover {
+  opacity: 0.8;
+}
+
+.resendTimer {
+  font-size: 13px;
+}
+
+.dark .resendTimer {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.light .resendTimer {
+  color: rgba(0, 0, 0, 0.35);
+}
+
+/* ========== Glass Button ========== */
+.glassButton {
+  height: 50px !important;
+  border-radius: 16px !important;
+  font-size: 17px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.5px;
+  border: none !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  transition: all 0.3s !important;
+  cursor: pointer;
+}
+
+.dark .glassButton {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  ) !important;
+  color: #fff !important;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark .glassButton:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0.08) 100%
+  ) !important;
+  box-shadow:
+    0 6px 24px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+  transform: translateY(-1px);
+}
+
+.light .glassButton {
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.7) 0%,
+    rgba(139, 92, 246, 0.5) 100%
+  ) !important;
+  color: #fff !important;
+  box-shadow:
+    0 4px 16px rgba(139, 92, 246, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+}
+
+.light .glassButton:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.85) 0%,
+    rgba(139, 92, 246, 0.65) 100%
+  ) !important;
+  box-shadow:
+    0 6px 24px rgba(139, 92, 246, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35) !important;
+  transform: translateY(-1px);
+}
+
+/* ========== Guest Button ========== */
+.guestButton {
+  margin-top: 12px;
+  height: 44px !important;
+  border-radius: 12px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  border: none !important;
+  transition: all 0.3s !important;
+}
+
+.dark .guestButton {
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.dark .guestButton:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.light .guestButton {
+  background: rgba(0, 0, 0, 0.04) !important;
+  color: rgba(0, 0, 0, 0.5) !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+.light .guestButton:hover {
+  background: rgba(0, 0, 0, 0.08) !important;
+  color: rgba(0, 0, 0, 0.7) !important;
+}
+
+/* ========== Responsive ========== */
+@media (max-width: 480px) {
+  .container {
+    padding: 16px;
+  }
+
+  .glassCard {
+    padding: 24px 20px;
+    border-radius: 16px;
+  }
+
+  .themeToggle {
+    top: 16px;
+    left: 16px;
+  }
+
+  .otpCell {
+    width: 40px;
+    height: 48px;
+    font-size: 18px;
+  }
+
+  .otpRow {
+    gap: 6px;
+  }
+}
+
+@media (min-width: 768px) {
+  .glassCard {
+    padding: 40px 36px;
+  }
+}
