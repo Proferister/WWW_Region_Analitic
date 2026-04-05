@@ -185,6 +185,14 @@ Frontend/
 - Объективность — факты без оценочных суждений
 - Прозрачность — по каждой теме доступны источники и обоснование
 
+## Наша команда
+
+<h4>Олег teamlead (fullstack) https://t.me/oligovit_6 </h4>
+<h4>Кирилл ml https://t.me/MOJEMI </h4>
+<h4>Матвей backend https://t.me/jsbe0w0 </h4>
+<h4>Никита design https://t.me/Xeolayy </h4>
+<h4>Егор speaker https://t.me/egorik2675 </h4>
+
 ## Лицензия
 
 Проект создан в рамках хакатона. Все права защищены.
